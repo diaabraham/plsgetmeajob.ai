@@ -8,6 +8,7 @@ const PlsGetMeAJobAI = () => {
   const [copiedSection, setCopiedSection] = useState('');
   const [useAI, setUseAI] = useState(false);
   const [apiKey, setApiKey] = useState('');
+  const [selectedLLM, setSelectedLLM] = useState('anthropic'); // Default to Claude
   const [showSettings, setShowSettings] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
 
@@ -100,20 +101,7 @@ const PlsGetMeAJobAI = () => {
   };
 
   const analyzeWithAI = async () => {
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": apiKey,
-        "anthropic-version": "2023-06-01"
-      },
-      body: JSON.stringify({
-        model: "claude-3-haiku-20240307",
-        max_tokens: 2000,
-        messages: [
-          {
-            role: "user",
-            content: `Analyze this job description for Big 4 or bulge bracket finance roles and extract ATS-optimized keywords. Focus on finance, banking, consulting, and accounting terminology.
+    const prompt = `Analyze this job description for Big 4 or bulge bracket finance roles and extract ATS-optimized keywords. Focus on finance, banking, consulting, and accounting terminology.
 
 Job Description:
 ${jobDescription}
@@ -128,18 +116,101 @@ Return ONLY a JSON object with this exact structure:
   "actionVerbs": ["verb1", "verb2"]
 }
 
-Extract 6-10 keywords per category. Focus on terms that would appear in ATS systems for finance roles. DO NOT include any text outside the JSON object.`
-          }
-        ]
-      })
-    });
+Extract 6-10 keywords per category. Focus on terms that would appear in ATS systems for finance roles. DO NOT include any text outside the JSON object.`;
+
+    let response;
+    
+    switch (selectedLLM) {
+      case 'anthropic':
+        response = await fetch("https://api.anthropic.com/v1/messages", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": apiKey,
+            "anthropic-version": "2023-06-01"
+          },
+          body: JSON.stringify({
+            model: "claude-3-haiku-20240307",
+            max_tokens: 2000,
+            messages: [{ role: "user", content: prompt }]
+          })
+        });
+        break;
+        
+      case 'openai':
+        response = await fetch("https://api.openai.com/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({
+            model: "gpt-3.5-turbo",
+            messages: [{ role: "user", content: prompt }],
+            max_tokens: 2000
+          })
+        });
+        break;
+        
+      case 'ollama':
+        response = await fetch("http://localhost:11434/api/generate", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            model: "llama2",
+            prompt: prompt,
+            stream: false
+          })
+        });
+        break;
+        
+      case 'huggingface':
+        response = await fetch("https://api-inference.huggingface.co/models/meta-llama/Llama-2-7b-chat-hf", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({
+            inputs: prompt,
+            parameters: {
+              max_new_tokens: 2000,
+              temperature: 0.7
+            }
+          })
+        });
+        break;
+        
+      default:
+        throw new Error(`Unsupported LLM provider: ${selectedLLM}`);
+    }
 
     if (!response.ok) {
       throw new Error(`API request failed: ${response.status}`);
     }
 
     const data = await response.json();
-    let responseText = data.content[0].text;
+    let responseText;
+    
+    switch (selectedLLM) {
+      case 'anthropic':
+        responseText = data.content[0].text;
+        break;
+      case 'openai':
+        responseText = data.choices[0].message.content;
+        break;
+      case 'ollama':
+        responseText = data.response;
+        break;
+      case 'huggingface':
+        responseText = data[0].generated_text;
+        break;
+      default:
+        throw new Error(`Unsupported LLM provider: ${selectedLLM}`);
+    }
+    
     responseText = responseText.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
     return JSON.parse(responseText);
   };
@@ -293,20 +364,55 @@ Extract 6-10 keywords per category. Focus on terms that would appear in ATS syst
 
         {showSettings && useAI && (
           <div className="border-t border-gray-200 pt-4 dark:border-gray-700">
-            <label htmlFor="apiKey" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
-              Anthropic API Key (Optional - for enhanced AI analysis)
-            </label>
-            <input
-              id="apiKey"
-              type="password"
-              value={apiKey}
-              onChange={(e) => setApiKey(e.target.value)}
-              placeholder="sk-ant-..."
-              className="w-full p-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-            />
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
-              Get a free API key at console.anthropic.com. Your key is stored locally and never sent anywhere except Anthropic.
-            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <div>
+                <label htmlFor="llmProvider" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
+                  LLM Provider
+                </label>
+                <select
+                  id="llmProvider"
+                  value={selectedLLM}
+                  onChange={(e) => setSelectedLLM(e.target.value)}
+                  className="w-full p-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                >
+                  <option value="anthropic">Claude (Anthropic)</option>
+                  <option value="openai">GPT-3.5/4 (OpenAI)</option>
+                  <option value="ollama">Ollama (Local/Free)</option>
+                  <option value="huggingface">Hugging Face (Free tier)</option>
+                </select>
+              </div>
+              <div>
+                <label htmlFor="apiKey" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
+                  API Key {selectedLLM === 'ollama' ? '(Not needed for local)' : ''}
+                </label>
+                <input
+                  id="apiKey"
+                  type="password"
+                  value={apiKey}
+                  onChange={(e) => setApiKey(e.target.value)}
+                  placeholder={selectedLLM === 'ollama' ? 'Not needed for local Ollama' : 
+                             selectedLLM === 'anthropic' ? 'sk-ant-...' :
+                             selectedLLM === 'openai' ? 'sk-...' :
+                             'hf_...'}
+                  disabled={selectedLLM === 'ollama'}
+                  className="w-full p-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white disabled:bg-gray-100 dark:disabled:bg-gray-700"
+                />
+              </div>
+            </div>
+            <div className="text-xs text-gray-500 dark:text-gray-400 space-y-1">
+              {selectedLLM === 'anthropic' && (
+                <p>Get a free API key at console.anthropic.com</p>
+              )}
+              {selectedLLM === 'openai' && (
+                <p>Get an API key at platform.openai.com</p>
+              )}
+              {selectedLLM === 'ollama' && (
+                <p>Install Ollama locally and run: <code className="bg-gray-100 dark:bg-gray-700 px-1 rounded">ollama run llama2</code></p>
+              )}
+              {selectedLLM === 'huggingface' && (
+                <p>Get a free API key at huggingface.co/settings/tokens</p>
+              )}
+            </div>
           </div>
         )}
 
