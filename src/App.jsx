@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Search, FileText, TrendingUp, Award, Briefcase, Copy, CheckCircle, Settings, Zap, Brain } from 'lucide-react';
+import { Search, FileText, TrendingUp, Award, Briefcase, Copy, CheckCircle, Settings, Zap, Brain, Moon, Sun, LogIn } from 'lucide-react';
 
-const ATSKeywordExtractor = () => {
+const PlsGetMeAJobAI = () => {
   const [jobDescription, setJobDescription] = useState('');
   const [keywords, setKeywords] = useState(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -9,6 +9,17 @@ const ATSKeywordExtractor = () => {
   const [useAI, setUseAI] = useState(false);
   const [apiKey, setApiKey] = useState('');
   const [showSettings, setShowSettings] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
+
+  // Toggle dark mode by adding/removing 'dark' class on html
+  React.useEffect(() => {
+    const html = document.documentElement;
+    if (darkMode) {
+      html.classList.add('dark');
+    } else {
+      html.classList.remove('dark');
+    }
+  }, [darkMode]);
 
   // Pre-built finance keyword database
   const financeKeywordDatabase = {
@@ -222,15 +233,24 @@ Extract 6-10 keywords per category. Focus on terms that would appear in ATS syst
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-gray-50 min-h-screen">
-      <div className="text-center mb-8">
-        <div className="flex items-center justify-center gap-3 mb-4">
-          <Search className="h-8 w-8 text-blue-600" />
-          <h1 className="text-3xl font-bold text-gray-900">ATS Keyword Extractor</h1>
+    <div className="max-w-4xl mx-auto p-6 bg-gray-50 dark:bg-gray-900 min-h-screen">
+      <div className="flex justify-between items-center mb-8">
+        <div className="text-center flex-1">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <Search className="h-8 w-8 text-blue-600 dark:text-blue-400" />
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">plsgetmeajob.ai</h1>
+          </div>
+          <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            Optimize your resume for Big 4 and bulge bracket finance roles. Choose between free JavaScript analysis or enhanced AI analysis.
+          </p>
         </div>
-        <p className="text-gray-600 max-w-2xl mx-auto">
-          Optimize your resume for Big 4 and bulge bracket finance roles. Choose between free JavaScript analysis or enhanced AI analysis.
-        </p>
+        <button
+          onClick={() => setDarkMode(!darkMode)}
+          className="ml-4 p-2 rounded-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+          aria-label="Toggle dark mode"
+        >
+          {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+        </button>
       </div>
 
       {/* Analysis Mode Toggle */}
@@ -272,8 +292,8 @@ Extract 6-10 keywords per category. Focus on terms that would appear in ATS syst
         </div>
 
         {showSettings && useAI && (
-          <div className="border-t border-gray-200 pt-4">
-            <label htmlFor="apiKey" className="block text-sm font-medium text-gray-700 mb-2">
+          <div className="border-t border-gray-200 pt-4 dark:border-gray-700">
+            <label htmlFor="apiKey" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
               Anthropic API Key (Optional - for enhanced AI analysis)
             </label>
             <input
@@ -282,9 +302,9 @@ Extract 6-10 keywords per category. Focus on terms that would appear in ATS syst
               value={apiKey}
               onChange={(e) => setApiKey(e.target.value)}
               placeholder="sk-ant-..."
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              className="w-full p-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
             />
-            <p className="text-xs text-gray-500 mt-2">
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
               Get a free API key at console.anthropic.com. Your key is stored locally and never sent anywhere except Anthropic.
             </p>
           </div>
@@ -396,4 +416,4 @@ Extract 6-10 keywords per category. Focus on terms that would appear in ATS syst
   );
 };
 
-export default ATSKeywordExtractor;
+export default PlsGetMeAJobAI;

@@ -1,7 +1,7 @@
 {
-  "name": "ats-keyword-extractor",
+  "name": "plsgetmeajob.ai",
   "version": "1.0.0",
-  "description": "ATS keyword extractor for Big 4 and bulge bracket finance roles",
+  "description": "plsgetmeajob.ai: Optimize your resume for Big 4 and bulge bracket finance roles with AI-powered keyword extraction.",
   "type": "module",
   "scripts": {
     "dev": "vite",
