@@ -304,220 +304,222 @@ Extract 6-10 keywords per category. Focus on terms that would appear in ATS syst
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-gray-50 dark:bg-gray-900 min-h-screen">
-      <div className="flex justify-between items-center mb-8">
-        <div className="text-center flex-1">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <Search className="h-8 w-8 text-blue-600 dark:text-blue-400" />
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">plsgetmeajob.ai</h1>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="container mx-auto px-6 py-8">
+        <div className="flex justify-between items-center mb-8">
+          <div className="text-center flex-1">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <Search className="h-8 w-8 text-blue-600 dark:text-blue-400" />
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">plsgetmeajob.ai</h1>
+            </div>
+            <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+              Optimize your resume for Big 4 and bulge bracket finance roles. Choose between free JavaScript analysis or enhanced AI analysis.
+            </p>
           </div>
-          <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            Optimize your resume for Big 4 and bulge bracket finance roles. Choose between free JavaScript analysis or enhanced AI analysis.
-          </p>
-        </div>
-        <button
-          onClick={() => setDarkMode(!darkMode)}
-          className="ml-4 p-2 rounded-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-          aria-label="Toggle dark mode"
-        >
-          {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-        </button>
-      </div>
-
-      {/* Analysis Mode Toggle */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="font-semibold text-gray-900">Analysis Mode</h3>
           <button
-            onClick={() => setShowSettings(!showSettings)}
-            className="flex items-center gap-2 text-gray-600 hover:text-gray-900"
+            onClick={() => setDarkMode(!darkMode)}
+            className="ml-4 p-2 rounded-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            aria-label="Toggle dark mode"
           >
-            <Settings className="h-4 w-4" />
-            Settings
-          </button>
-        </div>
-        
-        <div className="flex gap-4 mb-4">
-          <button
-            onClick={() => setUseAI(false)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
-              !useAI 
-                ? 'bg-blue-100 text-blue-700 border-2 border-blue-300' 
-                : 'bg-gray-100 text-gray-700 border-2 border-transparent hover:bg-gray-200'
-            }`}
-          >
-            <Zap className="h-4 w-4" />
-            Free Mode (JavaScript)
-          </button>
-          <button
-            onClick={() => setUseAI(true)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
-              useAI 
-                ? 'bg-purple-100 text-purple-700 border-2 border-purple-300' 
-                : 'bg-gray-100 text-gray-700 border-2 border-transparent hover:bg-gray-200'
-            }`}
-          >
-            <Brain className="h-4 w-4" />
-            AI Mode (Multiple LLMs)
+            {darkMode ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
           </button>
         </div>
 
-        {showSettings && useAI && (
-          <div className="border-t border-gray-200 pt-4 dark:border-gray-700">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-              <div>
-                <label htmlFor="llmProvider" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
-                  LLM Provider
-                </label>
-                <select
-                  id="llmProvider"
-                  value={selectedLLM}
-                  onChange={(e) => setSelectedLLM(e.target.value)}
-                  className="w-full p-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-                >
-                  <option value="anthropic">Claude (Anthropic)</option>
-                  <option value="openai">GPT-3.5/4 (OpenAI)</option>
-                  <option value="ollama">Ollama (Local/Free)</option>
-                  <option value="huggingface">Hugging Face (Free tier)</option>
-                </select>
+        {/* Analysis Mode Toggle */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-6">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-semibold text-gray-900">Analysis Mode</h3>
+            <button
+              onClick={() => setShowSettings(!showSettings)}
+              className="flex items-center gap-2 text-gray-600 hover:text-gray-900"
+            >
+              <Settings className="h-4 w-4" />
+              Settings
+            </button>
+          </div>
+          
+          <div className="flex gap-4 mb-4">
+            <button
+              onClick={() => setUseAI(false)}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
+                !useAI 
+                  ? 'bg-blue-100 text-blue-700 border-2 border-blue-300' 
+                  : 'bg-gray-100 text-gray-700 border-2 border-transparent hover:bg-gray-200'
+              }`}
+            >
+              <Zap className="h-4 w-4" />
+              Free Mode (JavaScript)
+            </button>
+            <button
+              onClick={() => setUseAI(true)}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-colors ${
+                useAI 
+                  ? 'bg-purple-100 text-purple-700 border-2 border-purple-300' 
+                  : 'bg-gray-100 text-gray-700 border-2 border-transparent hover:bg-gray-200'
+              }`}
+            >
+              <Brain className="h-4 w-4" />
+              AI Mode (Multiple LLMs)
+            </button>
+          </div>
+
+          {showSettings && useAI && (
+            <div className="border-t border-gray-200 pt-4 dark:border-gray-700">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label htmlFor="llmProvider" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
+                    LLM Provider
+                  </label>
+                  <select
+                    id="llmProvider"
+                    value={selectedLLM}
+                    onChange={(e) => setSelectedLLM(e.target.value)}
+                    className="w-full p-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                  >
+                    <option value="anthropic">Claude (Anthropic)</option>
+                    <option value="openai">GPT-3.5/4 (OpenAI)</option>
+                    <option value="ollama">Ollama (Local/Free)</option>
+                    <option value="huggingface">Hugging Face (Free tier)</option>
+                  </select>
+                </div>
+                <div>
+                  <label htmlFor="apiKey" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
+                    API Key {selectedLLM === 'ollama' ? '(Not needed for local)' : ''}
+                  </label>
+                  <input
+                    id="apiKey"
+                    type="password"
+                    value={apiKey}
+                    onChange={(e) => setApiKey(e.target.value)}
+                    placeholder={selectedLLM === 'ollama' ? 'Not needed for local Ollama' : 
+                               selectedLLM === 'anthropic' ? 'sk-ant-...' :
+                               selectedLLM === 'openai' ? 'sk-...' :
+                               'hf_...'}
+                    disabled={selectedLLM === 'ollama'}
+                    className="w-full p-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white disabled:bg-gray-100 dark:disabled:bg-gray-700"
+                  />
+                </div>
               </div>
-              <div>
-                <label htmlFor="apiKey" className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
-                  API Key {selectedLLM === 'ollama' ? '(Not needed for local)' : ''}
-                </label>
-                <input
-                  id="apiKey"
-                  type="password"
-                  value={apiKey}
-                  onChange={(e) => setApiKey(e.target.value)}
-                  placeholder={selectedLLM === 'ollama' ? 'Not needed for local Ollama' : 
-                             selectedLLM === 'anthropic' ? 'sk-ant-...' :
-                             selectedLLM === 'openai' ? 'sk-...' :
-                             'hf_...'}
-                  disabled={selectedLLM === 'ollama'}
-                  className="w-full p-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-gray-800 text-gray-900 dark:text-white disabled:bg-gray-100 dark:disabled:bg-gray-700"
-                />
+              <div className="text-xs text-gray-500 dark:text-gray-400 space-y-1">
+                {selectedLLM === 'anthropic' && (
+                  <p>Get a free API key at console.anthropic.com</p>
+                )}
+                {selectedLLM === 'openai' && (
+                  <p>Get an API key at platform.openai.com</p>
+                )}
+                {selectedLLM === 'ollama' && (
+                  <p>Install Ollama locally and run: <code className="bg-gray-100 dark:bg-gray-700 px-1 rounded">ollama run llama2</code></p>
+                )}
+                {selectedLLM === 'huggingface' && (
+                  <p>Get a free API key at huggingface.co/settings/tokens</p>
+                )}
               </div>
             </div>
-            <div className="text-xs text-gray-500 dark:text-gray-400 space-y-1">
-              {selectedLLM === 'anthropic' && (
-                <p>Get a free API key at console.anthropic.com</p>
-              )}
-              {selectedLLM === 'openai' && (
-                <p>Get an API key at platform.openai.com</p>
-              )}
-              {selectedLLM === 'ollama' && (
-                <p>Install Ollama locally and run: <code className="bg-gray-100 dark:bg-gray-700 px-1 rounded">ollama run llama2</code></p>
-              )}
-              {selectedLLM === 'huggingface' && (
-                <p>Get a free API key at huggingface.co/settings/tokens</p>
-              )}
+          )}
+
+          <div className="text-sm text-gray-600 mt-2">
+            {!useAI ? (
+              <div className="flex items-start gap-2">
+                <Zap className="h-4 w-4 text-green-600 mt-0.5" />
+                <span><strong>Free Mode:</strong> Uses intelligent keyword matching against a database of 100+ finance terms. Works offline, completely free.</span>
+              </div>
+            ) : (
+              <div className="flex items-start gap-2">
+                <Brain className="h-4 w-4 text-purple-600 mt-0.5" />
+                <span><strong>AI Mode:</strong> Uses AI models for context-aware analysis. Choose from Claude, GPT, local Ollama, or Hugging Face.</span>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-6">
+          <label htmlFor="jobDescription" className="block text-sm font-medium text-gray-700 mb-2">
+            Job Description
+          </label>
+          <textarea
+            id="jobDescription"
+            value={jobDescription}
+            onChange={(e) => setJobDescription(e.target.value)}
+            placeholder="Paste the complete job description here from Big 4 firms (Deloitte, PwC, EY, KPMG) or bulge bracket banks (Goldman Sachs, Morgan Stanley, JP Morgan, etc.)..."
+            className="w-full h-40 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+          />
+          <button
+            onClick={analyzeJobDescription}
+            disabled={!jobDescription.trim() || isAnalyzing || (useAI && !apiKey.trim())}
+            className="mt-4 w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2"
+          >
+            {isAnalyzing ? (
+              <>
+                <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                Analyzing...
+              </>
+            ) : (
+              <>
+                {useAI ? <Brain className="h-4 w-4" /> : <Zap className="h-4 w-4" />}
+                Extract Keywords {useAI ? `(${selectedLLM === 'ollama' ? 'Local AI' : selectedLLM === 'huggingface' ? 'Free AI' : 'AI'})` : '(Free)'}
+              </>
+            )}
+          </button>
+        </div>
+
+        {keywords && (
+          <div className="space-y-6">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">ATS Keywords Extracted</h2>
+              <p className="text-gray-600 dark:text-gray-300">
+                Analyzed using {useAI ? `${selectedLLM === 'ollama' ? 'local AI' : selectedLLM === 'huggingface' ? 'free AI' : 'AI-powered analysis'}` : 'intelligent keyword matching'}
+              </p>
+            </div>
+
+            <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
+              <KeywordSection
+                title="High Priority Keywords"
+                items={keywords.highPriority}
+                icon={TrendingUp}
+                priority="HIGH"
+              />
+              <KeywordSection
+                title="Medium Priority Keywords"
+                items={keywords.mediumPriority}
+                icon={FileText}
+                priority="MEDIUM"
+              />
+              <KeywordSection
+                title="Technical Skills"
+                items={keywords.technicalSkills}
+                icon={Award}
+              />
+              <KeywordSection
+                title="Soft Skills"
+                items={keywords.softSkills}
+                icon={Briefcase}
+              />
+              <KeywordSection
+                title="Industry Terms"
+                items={keywords.industryTerms}
+                icon={TrendingUp}
+              />
+              <KeywordSection
+                title="Action Verbs"
+                items={keywords.actionVerbs}
+                icon={FileText}
+              />
+            </div>
+
+            <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6 mt-8">
+              <h3 className="font-semibold text-blue-900 dark:text-blue-100 mb-3">💡 Pro Tips for ATS Optimization:</h3>
+              <ul className="text-blue-800 dark:text-blue-200 text-sm space-y-2">
+                <li>• Use high-priority keywords in your summary and experience sections</li>
+                <li>• Match exact keyword phrases when possible (don't modify them)</li>
+                <li>• Include both the spelled-out version and acronyms (e.g., "Mergers & Acquisitions (M&A)")</li>
+                <li>• Integrate keywords naturally into your bullet points and accomplishments</li>
+                <li>• Use action verbs to start your experience bullet points</li>
+                <li>• {useAI ? 'AI analysis provides context-aware suggestions' : 'Free mode uses proven finance keyword patterns'}</li>
+              </ul>
             </div>
           </div>
         )}
-
-        <div className="text-sm text-gray-600 mt-2">
-          {!useAI ? (
-            <div className="flex items-start gap-2">
-              <Zap className="h-4 w-4 text-green-600 mt-0.5" />
-              <span><strong>Free Mode:</strong> Uses intelligent keyword matching against a database of 100+ finance terms. Works offline, completely free.</span>
-            </div>
-          ) : (
-            <div className="flex items-start gap-2">
-              <Brain className="h-4 w-4 text-purple-600 mt-0.5" />
-              <span><strong>AI Mode:</strong> Uses AI models for context-aware analysis. Choose from Claude, GPT, local Ollama, or Hugging Face.</span>
-            </div>
-          )}
-        </div>
       </div>
-
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-        <label htmlFor="jobDescription" className="block text-sm font-medium text-gray-700 mb-2">
-          Job Description
-        </label>
-        <textarea
-          id="jobDescription"
-          value={jobDescription}
-          onChange={(e) => setJobDescription(e.target.value)}
-          placeholder="Paste the complete job description here from Big 4 firms (Deloitte, PwC, EY, KPMG) or bulge bracket banks (Goldman Sachs, Morgan Stanley, JP Morgan, etc.)..."
-          className="w-full h-40 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
-        />
-        <button
-          onClick={analyzeJobDescription}
-          disabled={!jobDescription.trim() || isAnalyzing || (useAI && !apiKey.trim())}
-          className="mt-4 w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold py-3 px-6 rounded-lg transition-colors flex items-center justify-center gap-2"
-        >
-          {isAnalyzing ? (
-            <>
-              <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
-              Analyzing...
-            </>
-          ) : (
-            <>
-              {useAI ? <Brain className="h-4 w-4" /> : <Zap className="h-4 w-4" />}
-              Extract Keywords {useAI ? `(${selectedLLM === 'ollama' ? 'Local AI' : selectedLLM === 'huggingface' ? 'Free AI' : 'AI'})` : '(Free)'}
-            </>
-          )}
-        </button>
-      </div>
-
-      {keywords && (
-        <div className="space-y-4">
-          <div className="text-center mb-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">ATS Keywords Extracted</h2>
-            <p className="text-gray-600">
-              Analyzed using {useAI ? `${selectedLLM === 'ollama' ? 'local AI' : selectedLLM === 'huggingface' ? 'free AI' : 'AI-powered analysis'}` : 'intelligent keyword matching'}
-            </p>
-          </div>
-
-          <div className="grid gap-4 md:grid-cols-2">
-            <KeywordSection
-              title="High Priority Keywords"
-              items={keywords.highPriority}
-              icon={TrendingUp}
-              priority="HIGH"
-            />
-            <KeywordSection
-              title="Medium Priority Keywords"
-              items={keywords.mediumPriority}
-              icon={FileText}
-              priority="MEDIUM"
-            />
-            <KeywordSection
-              title="Technical Skills"
-              items={keywords.technicalSkills}
-              icon={Award}
-            />
-            <KeywordSection
-              title="Soft Skills"
-              items={keywords.softSkills}
-              icon={Briefcase}
-            />
-            <KeywordSection
-              title="Industry Terms"
-              items={keywords.industryTerms}
-              icon={TrendingUp}
-            />
-            <KeywordSection
-              title="Action Verbs"
-              items={keywords.actionVerbs}
-              icon={FileText}
-            />
-          </div>
-
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-6">
-            <h3 className="font-semibold text-blue-900 mb-2">💡 Pro Tips for ATS Optimization:</h3>
-            <ul className="text-blue-800 text-sm space-y-1">
-              <li>• Use high-priority keywords in your summary and experience sections</li>
-              <li>• Match exact keyword phrases when possible (don't modify them)</li>
-              <li>• Include both the spelled-out version and acronyms (e.g., "Mergers & Acquisitions (M&A)")</li>
-              <li>• Integrate keywords naturally into your bullet points and accomplishments</li>
-              <li>• Use action verbs to start your experience bullet points</li>
-              <li>• {useAI ? 'AI analysis provides context-aware suggestions' : 'Free mode uses proven finance keyword patterns'}</li>
-            </ul>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
