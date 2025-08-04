@@ -358,7 +358,7 @@ Extract 6-10 keywords per category. Focus on terms that would appear in ATS syst
             }`}
           >
             <Brain className="h-4 w-4" />
-            AI Mode (Requires API Key)
+            AI Mode (Multiple LLMs)
           </button>
         </div>
 
@@ -425,7 +425,7 @@ Extract 6-10 keywords per category. Focus on terms that would appear in ATS syst
           ) : (
             <div className="flex items-start gap-2">
               <Brain className="h-4 w-4 text-purple-600 mt-0.5" />
-              <span><strong>AI Mode:</strong> Uses Claude AI for context-aware analysis. More accurate but requires API key.</span>
+              <span><strong>AI Mode:</strong> Uses AI models for context-aware analysis. Choose from Claude, GPT, local Ollama, or Hugging Face.</span>
             </div>
           )}
         </div>
@@ -455,7 +455,7 @@ Extract 6-10 keywords per category. Focus on terms that would appear in ATS syst
           ) : (
             <>
               {useAI ? <Brain className="h-4 w-4" /> : <Zap className="h-4 w-4" />}
-              Extract Keywords {useAI ? '(AI)' : '(Free)'}
+              Extract Keywords {useAI ? `(${selectedLLM === 'ollama' ? 'Local AI' : selectedLLM === 'huggingface' ? 'Free AI' : 'AI'})` : '(Free)'}
             </>
           )}
         </button>
@@ -466,7 +466,7 @@ Extract 6-10 keywords per category. Focus on terms that would appear in ATS syst
           <div className="text-center mb-6">
             <h2 className="text-2xl font-bold text-gray-900 mb-2">ATS Keywords Extracted</h2>
             <p className="text-gray-600">
-              Analyzed using {useAI ? 'AI-powered analysis' : 'intelligent keyword matching'}
+              Analyzed using {useAI ? `${selectedLLM === 'ollama' ? 'local AI' : selectedLLM === 'huggingface' ? 'free AI' : 'AI-powered analysis'}` : 'intelligent keyword matching'}
             </p>
           </div>
 
